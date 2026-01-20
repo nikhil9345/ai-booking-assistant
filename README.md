@@ -50,7 +50,7 @@ Before saving:
 ---
 
 ## 🧠 System Architecture
-
+```bash
 Streamlit (Frontend UI)
 |
 | HTTP
@@ -61,11 +61,11 @@ FastAPI Backend
 ├─ RAG Pipeline
 ├─ SQLite Persistence
 └─ Email Service
-
+```
 ---
 
 ## 📂 Project Structure
-
+```bash
 AI_UseCase/
 │
 ├── app.py # Streamlit frontend
@@ -88,7 +88,7 @@ AI_UseCase/
 ├── README.md
 └── .streamlit/
 └── secrets.toml
-
+```
 ---
 
 ## ⚙️ Setup Instructions (Local)
@@ -172,3 +172,4 @@ System is designed for clarity, robustness, and evaluation readiness
 ### 👤 Author
 Atchuta Nikhil Suhaas
 AI Engineer Assignment – NeoStats
+
