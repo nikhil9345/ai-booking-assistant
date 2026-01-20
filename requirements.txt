@@ -1,0 +1,11 @@
+streamlit
+fastapi
+uvicorn
+requests
+pypdf
+python-multipart
+numpy
+sqlite-utils
+langchain
+langchain-core
+sentence-transformers
