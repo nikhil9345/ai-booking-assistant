@@ -134,41 +134,42 @@ http://localhost:8501
 ```
 
 ### 🧪 How to Test
-📄 RAG Test
-Upload a real PDF
-Ask:
-What is the check-in time?
-✔ Answer should come from the PDF
-🗓 Booking Test
-I want to book an appointment
-Follow prompts → Confirm booking
-✔ Booking ID generated
-✔ Saved in database
-✔ Email attempted
+-📄 RAG Test
+-Upload a real PDF
+-Ask:
+-What is the check-in time?
+-✔ Answer should come from the PDF
+-🗓 Booking Test
+-I want to book an appointment
+-Follow prompts → Confirm booking
+-✔ Booking ID generated
+-✔ Saved in database
+-✔ Email attempted
 
 ### 🛠 Admin Dashboard
-Switch to Admin Dashboard
-Verify booking appears in table
+-Switch to Admin Dashboard
+-Verify booking appears in table
 
 ### ⚠️ Error Handling
-Invalid email / phone / date inputs
-Invalid or empty PDFs
-Database connection issues
-Email delivery failures
-Graceful user-friendly error messages
+-Invalid email / phone / date inputs
+-Invalid or empty PDFs
+-Database connection issues
+-Email delivery failures
+-Graceful user-friendly error messages
 
 ### 🔮 Future Improvements
-User booking lookup by email
-Cancel / reschedule bookings
-Persistent vector store (FAISS / Chroma)
-Voice input/output (STT/TTS)
-Authentication for Admin Dashboard
+-User booking lookup by email
+-Cancel / reschedule bookings
+-Persistent vector store (FAISS / Chroma)
+-Voice input/output (STT/TTS)
+-Authentication for Admin Dashboard
 
 ### 📌 Notes
-SQLite persistence is acceptable for this assignment
-In-memory vector store used for simplicity
-System is designed for clarity, robustness, and evaluation readiness
+-SQLite persistence is acceptable for this assignment
+-In-memory vector store used for simplicity
+-System is designed for clarity, robustness, and evaluation readiness
 
 ### 👤 Author
-Atchuta Nikhil Suhaas
-AI Engineer Assignment – NeoStats
+-Atchuta Nikhil Suhaas
+-AI Engineer Assignment – NeoStats
+
