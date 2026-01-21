@@ -5,7 +5,6 @@ requests
 pypdf
 python-multipart
 numpy
-sqlite-utils
+sentence-transformers
 langchain
 langchain-core
-sentence-transformers
