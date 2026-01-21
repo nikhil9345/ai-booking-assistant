@@ -1,15 +1,13 @@
 import sqlite3
 from datetime import datetime
 
-DB_PATH = "bookings.db"
+DB = "bookings.db"
 
-
-def get_connection():
-    return sqlite3.connect(DB_PATH, check_same_thread=False)
-
+def get_db():
+    return sqlite3.connect(DB, check_same_thread=False)
 
 def init_db():
-    conn = get_connection()
+    conn = get_db()
     cur = conn.cursor()
 
     cur.execute("""
@@ -29,70 +27,49 @@ def init_db():
         date TEXT,
         time TEXT,
         status TEXT,
-        created_at TEXT,
-        FOREIGN KEY(customer_id) REFERENCES customers(customer_id)
+        created_at TEXT
     )
     """)
 
     conn.commit()
     conn.close()
 
-
-def save_booking(data: dict):
-    conn = get_connection()
+def save_booking(data):
+    conn = get_db()
     cur = conn.cursor()
 
     cur.execute(
-        "INSERT INTO customers (name, email, phone) VALUES (?, ?, ?)",
+        "INSERT INTO customers (name,email,phone) VALUES (?,?,?)",
         (data["name"], data["email"], data["phone"])
     )
-    customer_id = cur.lastrowid
+    cid = cur.lastrowid
 
     cur.execute(
         """
         INSERT INTO bookings
         (customer_id, booking_type, date, time, status, created_at)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?,?,?,?,?,?)
         """,
-        (
-            customer_id,
-            data["booking_type"],
-            data["date"],
-            data["time"],
-            "CONFIRMED",
-            datetime.utcnow().isoformat()
-        )
+        (cid, data["booking_type"], data["date"], data["time"],
+         "CONFIRMED", datetime.utcnow().isoformat())
     )
 
-    booking_id = cur.lastrowid
-
+    bid = cur.lastrowid
     conn.commit()
     conn.close()
-
-    return booking_id
-
+    return bid
 
 def get_all_bookings():
-    conn = get_connection()
+    conn = get_db()
     cur = conn.cursor()
-
     cur.execute("""
-    SELECT
-        b.id,
-        c.name,
-        c.email,
-        c.phone,
-        b.booking_type,
-        b.date,
-        b.time,
-        b.status,
-        b.created_at
+    SELECT b.id,c.name,c.email,c.phone,
+           b.booking_type,b.date,b.time,
+           b.status,b.created_at
     FROM bookings b
-    JOIN customers c ON b.customer_id = c.customer_id
+    JOIN customers c ON b.customer_id=c.customer_id
     ORDER BY b.created_at DESC
     """)
-
     rows = cur.fetchall()
     conn.close()
-
     return rows

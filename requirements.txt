@@ -1,11 +1,6 @@
 streamlit
-fastapi
-uvicorn
-requests
 pypdf
-python-multipart
-numpy
 sentence-transformers
-langchain
-langchain-core
 scikit-learn
+langchain-groq
+langchain-core

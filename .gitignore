@@ -1,5 +1,5 @@
 __pycache__/
 *.pyc
+bookings.db
 .env
 .streamlit/secrets.toml
-venv/

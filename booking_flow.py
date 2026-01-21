@@ -1,88 +1,50 @@
 import re
 from datetime import datetime
 
-REQUIRED_FIELDS = [
-    "name",
-    "email",
-    "phone",
-    "booking_type",
-    "date",
-    "time"
-]
+FIELDS = ["name","email","phone","booking_type","date","time"]
 
-EMAIL_REGEX = r"[^@]+@[^@]+\.[^@]+"
+def detect_booking_intent(text):
+    return any(w in text.lower() for w in
+        ["book","booking","appointment","reserve"])
 
-
-def detect_intent(message: str) -> str:
-    booking_keywords = [
-        "book", "booking", "appointment", "schedule",
-        "reserve", "reservation"
-    ]
-
-    message_lower = message.lower()
-    for word in booking_keywords:
-        if word in message_lower:
-            return "booking"
-
-    return "general"
-
-
-def extract_fields(message: str) -> dict:
-    extracted = {}
-
-    email_match = re.search(EMAIL_REGEX, message)
-    if email_match:
-        extracted["email"] = email_match.group()
-
-    phone_match = re.search(r"\b\d{10}\b", message)
-    if phone_match:
-        extracted["phone"] = phone_match.group()
-
-    return extracted
-
-
-def next_missing_field(state: dict):
-    for field in REQUIRED_FIELDS:
-        if field not in state:
-            return field
+def next_field(data):
+    for f in FIELDS:
+        if f not in data:
+            return f
     return None
 
-
-def field_prompt(field: str) -> str:
-    prompts = {
+def prompt_for(field):
+    return {
         "name": "Please tell me your full name.",
         "email": "Please provide your email address.",
         "phone": "Please provide your 10-digit phone number.",
-        "booking_type": "What type of booking would you like? (hotel / doctor / salon / etc.)",
-        "date": "Please enter the booking date (YYYY-MM-DD).",
-        "time": "Please enter the preferred time (HH:MM)."
-    }
-    return prompts[field]
+        "booking_type": "What type of booking do you want?",
+        "date": "Enter date (YYYY-MM-DD).",
+        "time": "Enter time (HH:MM)."
+    }[field]
 
-
-def validate_field(field: str, value: str) -> bool:
+def validate(field, val):
     try:
-        if field == "email":
-            return re.match(EMAIL_REGEX, value) is not None
-        if field == "phone":
-            return value.isdigit() and len(value) == 10
-        if field == "date":
-            datetime.strptime(value, "%Y-%m-%d")
-        if field == "time":
-            datetime.strptime(value, "%H:%M")
+        if field=="email":
+            return re.match(r"[^@]+@[^@]+\.[^@]+",val)
+        if field=="phone":
+            return val.isdigit() and len(val)==10
+        if field=="date":
+            datetime.strptime(val,"%Y-%m-%d")
+        if field=="time":
+            datetime.strptime(val,"%H:%M")
         return True
-    except Exception:
+    except:
         return False
 
-
-def summarize_booking(state: dict) -> str:
+def summarize(d):
     return (
-        f"Please confirm your booking details:\n\n"
-        f"Name: {state['name']}\n"
-        f"Email: {state['email']}\n"
-        f"Phone: {state['phone']}\n"
-        f"Booking Type: {state['booking_type']}\n"
-        f"Date: {state['date']}\n"
-        f"Time: {state['time']}\n\n"
-        "Reply with **Confirm** to proceed or **Cancel** to stop."
+        f"Please confirm:\n\n"
+        f"Name: {d['name']}\n"
+        f"Email: {d['email']}\n"
+        f"Phone: {d['phone']}\n"
+        f"Type: {d['booking_type']}\n"
+        f"Date: {d['date']}\n"
+        f"Time: {d['time']}\n\n"
+        f"Reply Confirm or Cancel."
     )
